@@ -1,0 +1,134 @@
+#!/usr/bin/perl
+
+###########################################################################
+# Filename: ksamp
+# Coder: Tuan Pham
+# Description: Reports behavior of the Linux kernel.
+# default option:
+# 	o CPU type and model
+# 	o Kernel version
+# 	o Amount of time since the file system was lasted booted in
+# 	dd-hh-mm-ss
+# -s:
+# 	o Same as default option
+# 	o The amount of time the CPU has spent in user mode, system mode,
+# 	and the amount of the system was idle
+# 	o The number of disk request made on system
+# 	o The number of context switches the kernel has performed
+# 	o The time at which the system was last boot
+# 	o The number of processes that have been created since the system
+# 	was boot
+#
+
+main();
+
+sub main()
+{
+	kernel();	# call the default
+	if ( "-s" eq shift(@ARGV) )
+	{
+		#print "option -s is detected\n";
+		sysinfo();
+	}
+}
+
+###############################################
+# kernel()
+# prints the default output of the kernel info
+# there are a lot of system calls, hm....
+
+sub kernel()
+{
+	# parse the cpu model name
+	my @A_LINE=split(":",`cat /proc/cpuinfo | grep 'model name'`);
+	my $CPU_MODEL=@A_LINE[1];
+	chomp $CPU_MODEL;	# chop off the \n char at the end
+
+	# parse the vendor_id
+	@A_LINE=split(":",`cat /proc/cpuinfo | grep 'vendor_id'`);
+	$CPU_ID=@A_LINE[1];
+	chomp $CPU_ID;
+
+	# parse the 
+	my $CPU_SPEED=`cat /proc/cpuinfo | grep 'cpu MHz' | awk '{print \$4}'`;	# note: \$
+	chomp $CPU_SPEED;
+	
+	my $KERNEL_VERSION=`cat /proc/version | awk '{print \$3}'`;		# get version number
+	chomp $KERNEL_VERSION;
+	
+	# parse the uptime
+	my $UP_TIME=toDate(int (`cat /proc/uptime | awk '{print \$1}'`));
+
+	print "CPU model:$CPU_MODEL\n";
+	print "CPU type:$CPU_ID $CPU_SPEED Mhz\n";
+	print "Kernel version: $KERNEL_VERSION\n";
+	print "Uptime: $UP_TIME\n\n";
+}
+
+
+##############################################
+# sysinfo()
+# prints the system info for -s
+
+sub sysinfo()
+{
+	my @A_LINE;
+	my $USR_MODE, $SYS_MODE, $IDLE_MODE;	# usr, sys, idle
+	my $IO_REQ;				# disk i/o request
+	my $CONT_SW;				# context switch
+	my $LAST_BOOT;				# boot date + uptime = current time
+	my $PROC;				# number of processes that have been created
+
+	# parse the usr, sys, idle mode
+	@A_LINE=split(" ",`cat /proc/stat | grep 'cpu'`);
+	$USR_MODE=toDate(@A_LINE[1]);
+	$SYS_MODE=toDate(@A_LINE[3]);
+	$IDLE_MODE=toDate(int(@A_LINE[4]/100));
+
+	#parse the disk request
+	@A_LINE=split(":",`cat /proc/stat | grep 'disk_io' | awk '{print \$3}'`);
+	@A_LINE=split(",",@A_LINE[1]);
+	$IO_REQ=@A_LINE[0];
+	$IO_REQ=~s/\(//;
+	
+	#parse the context switch
+	$CONT_SW=`cat /proc/stat | grep 'ctxt' | awk '{print \$2}'`;
+	chomp $CONT_SW;
+	
+	#parse the boot time
+	my $BTIME=`cat /proc/stat | grep 'btime' | awk '{print \$2'}`;
+	($sec,$min,$hr,$mday,$mon,$yr,$wd,$ydat,$isdst)=gmtime($BTIME);	# boot time from 1970, convert it GMT
+	$temp=int(1900+$yr);
+	$LAST_BOOT="$mday-$mon-$temp";
+	#$LAST_BOOT=$BTIME;
+	
+	#parse number of processes
+	$PROC=`cat /proc/stat | grep 'processes' | awk '{print \$2'}`;
+	chomp $PROC;
+	
+	print"\n";
+	print "System info:\n";
+	print "\tUser mode: $USR_MODE\n";
+	print "\tSystem mode: $SYS_MODE\n";
+	print "\tIdle mode: $IDLE_MODE\n";
+	print "\tDisk request: $IO_REQ\n";
+	print "\tContext switch: $CONT_SW\n";
+	print "\tLast boot: $LAST_BOOT\n";
+	print "\tNumber of processes: $PROC\n";
+}
+
+##############################################
+# toDate(para1)
+# convert from seconds to dd-hh-mm-ss
+sub toDate()
+{
+	my $DAYS, $HOURS, $MINUTES, $SECONDS, $REST;
+	$DAYS=int ($_[0]/86400);	# 3600sec*24hrs, get # days
+	$REST=$_[0]%86400;		# get the remainder
+	$HOURS=int ($REST/3600);	# get hrs
+	$REST=$REST%3600;		# get the remainder
+	$MINUTES=int ($REST/60);	# get mins
+	$SECONDS=$REST%60;		#
+	return "$DAYS\d-$HOURS\h-$MINUTES\m-$SECONDS\s";
+}
+

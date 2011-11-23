@@ -1,2 +1,2 @@
-BeerStyles.png: BeerStyles.dot
-	dot -Gsplines=true -Tpng -o BeerStyles.png BeerStyles.dot
+BeerStyles.svg: BeerStyles.dot
+	dot -Gsplines=true -Tsvg -o BeerStyles.svg BeerStyles.dot

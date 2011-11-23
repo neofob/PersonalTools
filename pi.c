@@ -241,9 +241,9 @@ t_barrier_wait(struct m_barrier_t* barrier)
   }
   else /* last thread that reaches barrier */
   {
-    pthread_cond_broadcast(&barrier->convar);
     barrier->counter = barrier->threshold;
     result = PTHREAD_BARRIER_SERIAL_THREAD;
+    pthread_cond_broadcast(&barrier->convar);
   }
   pthread_mutex_unlock(&barrier->mutex);
 

@@ -26,10 +26,10 @@ if __name__ == '__main__':
   length = len(sys.argv)
   DEBUG('length = ' + str(length))
   n_procs = int(sys.argv[1])
+  DEBUG(n_procs)
   if n_procs < 1:
     sys.exit(1)
 
-  DEBUG(n_procs)
   opt = sys.argv[2]
   if "-b" != opt:
     opt = ""

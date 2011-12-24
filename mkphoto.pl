@@ -120,9 +120,9 @@ sub main
 # information is from $CurrentFile
 sub makeBody
 {
-  $Body="\t\t<img src=\"./$CurrentFile\" border=\"1\"\n\t\talt=\"$Title\" \n\t\t".
+  $Body="\t\t<a href=\"$NextFile\"><img src=\"./$CurrentFile\" border=\"1\"\n\t\talt=\"$Title\" \n\t\t".
   "onmouseout=\"self.status='Move the mouse pointer over image to see the title'\"\n\t\t".
-  "onmouseover=\"window.status='&quot;$Title&quot;'; return true;\">\n".
+  "onmouseover=\"window.status='&quot;$Title&quot;'; return true;\"></a>\n".
   
   "\t\t <table width=\"$Width\" align=\"center\">\n".
   "\t\t <tr>\n".

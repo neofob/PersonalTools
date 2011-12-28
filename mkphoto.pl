@@ -12,6 +12,8 @@
 #    04/06/03 fixed invalid html tags
 #    06/13/06 add website url and parents link
 #    03/28/08 add Previous and Next link
+#    12/23/11 added click-on feature to viewing picture as requested by Ruel
+#    12/28/11 replaced tabs with spaces
 # usage: mkphoto.pl -t="photo title" a.jpg (make html for one file)
 # the output will be *.html
 
@@ -33,7 +35,7 @@ $Width;
 $Year=`date | awk '{print \$6}'`;  # get the current year
 chomp $Year;;
 #----------------------------------------oOo----------------------------------------
-#print "@ARGV[0]\t@ARGV[1]\n";
+#print "@ARGV[0]  @ARGV[1]\n";
 $PrevFile="./index.html";
 $NextFile="./index.html";
 main();
@@ -87,15 +89,15 @@ sub main
     if ( open (TEMP,$AFile) )  # check whether this file exist
     {
 
-      $FileName=$AFile;      # get filename of this one
+      $FileName=$AFile;                 # get filename of this one
       $CurrentFile=$AFile;
       $FileName=~s/\.([^\.]+)/\.html/;  # replace the extension w/ html
 
       $temp=`identify $CurrentFile`;
-      @array=split(/\s/,$temp);    # parse the output
-      $temp=@array[2];      # grab resolution in WxH
-      @array=split(/x/,$temp);    # parse the number
-      $Width=@array[0];      # grab the width, $Width is global variable
+      @array=split(/\s/,$temp);         # parse the output
+      $temp=@array[2];                  # grab resolution in WxH
+      @array=split(/x/,$temp);          # parse the number
+      $Width=@array[0];                 # grab the width, $Width is global variable
       @t=split(/\./,$FileName);
       
       if ($t==0)
@@ -103,8 +105,8 @@ sub main
         $Title=@t[0];
       }
       
-      open(OUTFILE,"> $FileName");    # create html file
-      makeHtml();        # generate the html header and tail
+      open(OUTFILE,"> $FileName");      # create html file
+      makeHtml();                       # generate the html header and tail
       makeBody();
       print OUTFILE "$Header $Body $Tail\n";
 
@@ -120,44 +122,42 @@ sub main
 # information is from $CurrentFile
 sub makeBody
 {
-  $Body="\t\t<a href=\"$NextFile\"><img src=\"./$CurrentFile\" border=\"1\"\n\t\talt=\"$Title\" \n\t\t".
-  "onmouseout=\"self.status='Move the mouse pointer over image to see the title'\"\n\t\t".
-  "onmouseover=\"window.status='&quot;$Title&quot;'; return true;\"></a>\n".
-  
-  "\t\t <table width=\"$Width\" align=\"center\">\n".
-  "\t\t <tr>\n".
-  
-  "\t\t <td align=\"left\">\n".
-  "\t\t\t<font size=\"+1\" color=\"#FAFAFA\"><b><i>\n".
-  "\t\t\t&quot;$Title&quot;</i></b>\n".
-  "\t\t\t</font>\n".
-  "\t\t</td>\n\n".
-  "\t\t<td align=\"right\">\n".
-  "\t\t\t<font size=\"+1\" color=\"#FAFAFA\">\n";
+  $Body="    <a href=\"$NextFile\"><img src=\"./$CurrentFile\" border=\"1\"\n    alt=\"$Title\" \n".
+  "    onmouseout=\"self.status='Move the mouse pointer over image to see the title'\"\n".
+  "    onmouseover=\"window.status='&quot;$Title&quot;'; return true;\"></a>\n".
+  "    <table width=\"$Width\" align=\"center\">\n".
+  "    <tr>\n".
+  "    <td align=\"left\">\n".
+  "      <font size=\"+1\" color=\"#FAFAFA\"><b><i>\n".
+  "      &quot;$Title&quot;</i></b>\n".
+  "      </font>\n".
+  "    </td>\n\n".
+  "    <td align=\"right\">\n".
+  "      <font size=\"+1\" color=\"#FAFAFA\">\n";
   
   if ("" eq $bYear)
   {
-    $Body.="\t\t\t <b><i>&copy;$Year $Name</i></b>\n";
+    $Body.="       <b><i>&copy;$Year $Name</i></b>\n";
   }
   else
   {
-    $Body.="\t\t\t <b><i>&copy;$bYear-$Year $Name</i></b>\n";
+    $Body.="       <b><i>&copy;$bYear-$Year $Name</i></b>\n";
   }
   
-  $Body.="\t\t\t</font>\n".
-  "\t\t</td>\n".
+  $Body.="      </font>\n".
+  "    </td>\n".
   
-  "\t\t</tr>\n".
-  "\t\t</table>\n\n".
+  "    </tr>\n".
+  "    </table>\n\n".
 
-  "\t\t<table width=\"$Width\" align=\"center\">\n".
-  "\t\t<tr>\n".
-  "\t\t<td align=\"left\" width=\"25%\"><a href=\"$PrevFile\">Previous</a></td>".
+  "    <table width=\"$Width\" align=\"center\">\n".
+  "    <tr>\n".
+  "    <td align=\"left\" width=\"25%\"><a href=\"$PrevFile\">Previous</a></td>".
   " <td align=\"right\" width=\"25%\"><a href=\"$Site\">Home</a></td>".
   " <td align=\"left\" width=\"25%\"><a href=\"./index.html\">Up</a></td>".
   " <td align=\"right\" width=\"25%\"><a href=\"$NextFile\">Next</a></td>\n".
-  "\t\t</tr>\n".
-  "\t\t</table>\n";
+  "    </tr>\n".
+  "    </table>\n";
 }
 
 #-------------------------oOo--------------------------
@@ -181,6 +181,5 @@ sub makeHtml
   $Tail=  "</td></tr>\n</table>"."\n".
     "</body>"."\n".
     "</html>";
-
 }
 #-------------------------oOo--------------------------

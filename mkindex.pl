@@ -139,22 +139,22 @@ sub main
       # add it to index.html
       if ($i==0)
       {
-        $Body=$Body."\t<tr valign=\"bottom\" align=\"center\">\n";
+        $Body=$Body."  <tr valign=\"bottom\" align=\"center\">\n";
       }
       else
       {
         if ( ($i%4)==0 )  # new line
         {  # there is a broken </tr> for the first row (fixed!)
-          $Body=$Body."\t</tr>\n\t<tr valign=\"bottom\" align=\"center\">\n";
+          $Body=$Body."  </tr>\n  <tr valign=\"bottom\" align=\"center\">\n";
         }
       }
       $i++;
       $CurrentFile=~s/\.[^\.]+/\.html/;  # removes the extension
       $Body=$Body.
-      "\t <td>\n".
-      "\t\t<a HREF=\"$CurrentFile\">".
+      "  <td>\n".
+      "    <a HREF=\"$CurrentFile\">".
       "<img SRC=\"tn/$ThumbNail\" VSPACE=4 ALT=\"$CurrentFile\"></a>\n".
-      "\t </td>\n";
+      "  </td>\n";
       $LastFile=$CurrentFile;
     }
     else
@@ -163,7 +163,7 @@ sub main
     }
   } # while loop
   # wrap up the tail
-  $Body=$Body."\t</tr>\n".
+  $Body=$Body."  </tr>\n".
     "</table>\n";
   my $Year=`date | awk '{print \$6}'`;  # get the current year
   $IndexFile=$IndexFile.$Body."\n\n".
@@ -172,42 +172,44 @@ sub main
 
     # make a notice for silly web surfers
     "<br><br>\n".
-    "\t<center><font size=\"+1\" color=\"\#FAFAFA\">\n".
-    "\t<b><a href=\"$ParentDir\">Up</a></b><br>".
-    "\t\t<b>Click on the thumbnail to see that photo (the largest dimension is 1024 pixels)</b>\n".
-    "\t</font></center>".
+    " <center><font size=\"+1\" color=\"\#FAFAFA\">\n".
+    "  <b><a href=\"$ParentDir\">Up</a></b><br>".
+    "    <b>Click on the thumbnail to see that photo (the largest dimension is 1024 pixels)</b>\n".
+    "  </font></center>".
     "<br><br>\n".
 
     "<!-- Make a horizontal line -->\n".  # make a horizontal line
     "<table width=\"80%\" bgcolor=\"#00DD00\" border=\"0\" cellspacing=\"0\" align=\"center\">\n".
-    "\t<tr>\n".
-    "\t<td width=\"100%\" bgcolor=\"#00DD00\">\n".
-    "\t</td>\n".
-    "\t</tr>\n".
+    "  <tr>\n".
+    "  <td width=\"100%\" bgcolor=\"#00DD00\">\n".
+    "  </td>\n".
+    "  </tr>\n".
     "</table>\n".
     "<br>\n".
     
     # (c)
     "<!-- Copy right note -->\n".
-    "<table width=\"80%\" bgcolor=\"#8F8F8F\" border=\"0\" cellpadding=\"0\"\n".
+    "<table width=\"80%\" bgcolor=\"#8F8F8F\" border=\"0\" cellpadding=\"0\"".
     "cellspacing=\"0\" align=\"center\">\n".
-    "\t<tr>\n".
-    "\t<td align=\"left\">\n".
-    "\t\t<font size=\"-1\" color=\"\#FAFAFA\">\n";
+    "  <tr>\n".
+    "  <td align=\"left\">\n".
+    "    <font size=\"-1\" color=\"\#FAFAFA\">";
+  chomp $Year;
   if ("" eq $bYear)
   {
-    $IndexFile.="\t\t&copy;$Year $NAME<br>\n";
+    $IndexFile.="&copy;$Year $NAME<br>\n";
   }
   else
   {
-    $IndexFile.="\t\t&copy;$bYear-$Year $NAME<br>\n";
+    $IndexFile.="&copy;$bYear-$Year $NAME<br>\n";
   }
-    $IndexFile.="\t\tAny unauthorized use of these photos will be prosecuted to full extent of the\n".
-    "current complicated Federal Copyright Laws.\n".
-    "\t\t</font>\n".
-    "\t</td>".
-    "\t</tr>".
-    "\t<tr><td align=\"center\"><a href=\"$Site\">Home</a></td></tr>".
+    $IndexFile.="    Any unauthorized use of these photos will be prosecuted to full extent\n".
+    "of the current complicated Federal Copyright Laws.\n".
+    "    </font>\n".
+    "  </td>\n".
+    "</tr>\n".
+    "<tr><td align=\"center\"><a href=\"$Site\">Home</a></td>\n".
+    "</tr>".
     "</table>".
     "<p><center>\n ".
     "<a href=\"http://validator.w3.org/check?uri=referer\"><img src=\"http://www.w3.org/Icons/valid-html401-blue\"".
@@ -238,7 +240,7 @@ sub makeHeader
   $IndexFile="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n".
     "<html>\n".
     "<head>\n".
-    "<meta http-equiv=\"content-type\" content=\n\"text/html; charset=UTF-8\">\n".
+    "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">\n".
     "<title>$Title</title>\n".
     "</head>\n\n".
     "<body BGCOLOR=\"#8F8F8F\" TEXT=\"#00FF00\" LINK=\"#00DDAA\" VLINK=\"#AADD00\" ALINK=\"#00FF00\">\n".

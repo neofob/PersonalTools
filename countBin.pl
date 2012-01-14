@@ -2,7 +2,7 @@
 # author: Tuan T. Pham
 # I wrote this tool to do some histogram of my weblog or any debug log
 # Example: to find out the frequency of different requests from bingbot
-# $ grep bingbot | weblog.log | awk '{print $7}' | sort > bingbot.txt
+# $ grep bingbot weblog.log | awk '{print $7}' | sort > bingbot.txt
 # countBin.pl bingbot.txt > bingCount.txt
 # The output of file "bingCount.txt" will be something like this
 # /CDE/Spring06/CDE-Spring06-09.html	1

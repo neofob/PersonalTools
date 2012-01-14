@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # author: Tuan T. Pham
-# I wrote to tool to do some histogram of my weblog or any debug log
+# I wrote this tool to do some histogram of my weblog or any debug log
 # Example: to find out the frequency of different requests from bingbot
 # $ grep bingbot | weblog.log | awk '{print $7}' | sort > bingbot.txt
 # countBin.pl bingbot.txt > bingCount.txt

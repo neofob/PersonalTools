@@ -7,6 +7,7 @@
 # and "The Chinese Mosaic")
 # last updated: 12/28/02 (added -t -a)
 #               12/28/11 replaced tabs with spaces
+#               02/17/12 removed <p> tag to use css
 # usage: htmlizer.pl *.txt
 # the output will be *.html
 # -t="Put the title here" (in double quotes)
@@ -20,6 +21,7 @@
 $input;
 $TITLE="";  # text title
 $NAME="";  # author
+$CSS_FILE="neofob.css";
 local($/)=undef;  # lousy and lazy way to parse text
 main();
 
@@ -66,27 +68,26 @@ sub make_paragraph
   # add &nbsp;
   # temporarily, this damned line doesn't work!
   $input=~s/\r//g;
-  $input=~s/(\.)  ([A-Z])/$1&nbsp; $2/g;
 
   # add <p> tags
 
-  $input=~s/\n+\s+/\n<p align=justify>\n&nbsp;&nbsp;/g;
+  $input=~s/\n+\s+/\n<p class=\"firstLetter\">/;
+  $input=~s/\n+\s+/\n\n<p>/g;
 }
 #-------------------------oOo--------------------------
 # adding the html header
 sub make_html
 {
-  $header="<html>\n".
+  $header="<!doctype html system>\n".
     "  <head>\n".
-    "    <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\">"."\n".
-    "    <title>$TITLE</title>"."\n".
-    "<!-- htmlized by neofob -->"."\n\n".
+    "     <meta content=\"text/html; charset=UTF-8\" http-equiv=\"Content-Type\">"."\n".
+    "     <title>$TITLE</title>"."\n".
+    "     <link href=\"$CSS_FILE\" rel=\"stylesheet\" type=\"text/css\">\n".
     "  </head>"."\n\n".
-    "<body bgcolor=\"#F8E5AF\">\n".
-    "  <font size=+1>"."\n".
-    "<table width=\"85%\" align=center>"."\n".
-    "  <tr><td>"."\n".
-    "  <font size=+1>"."\n\n";
+    "<!-- htmlized by neofob -->"."\n\n".
+    "<body>\n".
+    "<table width=\"90%\" align=\"center\">"."\n".
+    "  <tr><td>\n\n";
 
   $tail=  "  </td></tr>"."\n".
     "</table>"."\n".

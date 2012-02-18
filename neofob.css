@@ -1,0 +1,18 @@
+/* my tentative stylesheet to display text from htmlizer.pl ~neofob */
+body {
+/* use the first ligature and the second available swash character set */
+-moz-font-feature-settings: "dlig=1,swsh=2";
+color: #FFFFFF;
+background-color: #000000;
+}
+
+p {
+  text-indent:25px;
+  text-align:justify;
+}
+
+p.firstLetter:first-letter
+{
+  font-size: xx-large;
+  font-weight: bold;
+}

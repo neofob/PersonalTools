@@ -7,12 +7,17 @@ background-color: #000000;
 }
 
 p {
-  text-indent:25px;
-  text-align:justify;
+  text-indent: 25px;
+  text-align: justify;
 }
 
 p.firstLetter:first-letter
 {
   font-size: xx-large;
   font-weight: bold;
+  text-float: left;
+}
+
+A {
+  text-decoration: none;
 }

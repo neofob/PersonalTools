@@ -32,7 +32,7 @@ $Site="http://photo.neofob.org";
 $Header=""; $Body=""; $Tail="";
 
 $Width;
-$Year=`date | awk '{print \$6}'`;  # get the current year
+$Year=`date +%Y`;  # get the current year
 chomp $Year;;
 #----------------------------------------oOo----------------------------------------
 #print "@ARGV[0]  @ARGV[1]\n";

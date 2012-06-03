@@ -165,7 +165,7 @@ sub main
   # wrap up the tail
   $Body=$Body."  </tr>\n".
     "</table>\n";
-  my $Year=`date | awk '{print \$6}'`;  # get the current year
+  my $Year=`date +%Y`;  # get the current year
   $IndexFile=$IndexFile.$Body."\n\n".
     "</td></tr>\n".
     "</table>\n".

@@ -25,7 +25,7 @@
 #----------------------------------------oOo----------------------------------------
 # global vars
 $Title="";
-$Name="Tuan Pham";
+$Name="Tuan T. Pham";
 $CurrentFile="";
 $Site="http://photo.neofob.org";
 

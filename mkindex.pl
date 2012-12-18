@@ -15,6 +15,7 @@
 #    06/13/06   added website URL
 #    03/31/08   added Previous and Next link
 #    11/24/11   added "Up" link, removed tabs, corrected scale
+#    12/17/12   removed old resize option and updated scale for modern computers
 
 
 # -t="myfile.info"
@@ -36,7 +37,7 @@
 
 $Site="http://photo.neofob.org";
 $ParentDir="../index.html";
-$NAME="Tuan Pham";    # put your darn name here
+$NAME="Tuan T. Pham";    # put your darn name here
 $IndexFile="";
 $Title="";
 @FILENAME,@TITLE, $inputFile;    # filename and title array
@@ -112,11 +113,11 @@ sub main
       if ( $r==0)
       {
         print "Processing \"$CurrentFile\"...\n";
-        `convert -resize 2048x2048 -scale 2048x2048 -bordercolor "#FDFDFD" -border 1x1 \\
+        `convert -bordercolor "#FDFDFD" -border 1x1 \\
         -bordercolor "#000000" -border 3x3 \\
         -flip -flop -bordercolor "#F8E5AF" -border 5x5 -raise 5x5 \\
         -flop -flip -bordercolor "#000000" -border 15x15 \\
-        -scale 1024x1024 -sharpen 1x1 -unsharp 0.12x0.25 -quality 95 +profile \"*\" \\
+        -scale 1080x1080 -sharpen 1x1 -unsharp 0.12x0.25 -quality 95 +profile \"*\" \\
         $CurrentFile $OutFile`;
       
       }
@@ -174,7 +175,7 @@ sub main
     "<br><br>\n".
     " <center><font size=\"+1\" color=\"\#FAFAFA\">\n".
     "  <b><a href=\"$ParentDir\">Up</a></b><br>".
-    "    <b>Click on the thumbnail to see that photo (the largest dimension is 1024 pixels)</b>\n".
+    "    <b>Click on the thumbnail to see that photo (the largest dimension is 1080 pixels)</b>\n".
     "  </font></center>".
     "<br><br>\n".
 

@@ -3,11 +3,12 @@
 # Filename: mkweb.pl
 # Usage: ./mkweb.pl filename1.jpg filename2.tif
 # the output will be filename1.jpg filename2.jpg
-# Coder: tuan trung pham
+# Author: Tuan T. Pham
 # Last update:  June 24, 2002
 #    Sunday September 1, 2002 (added sharpen)
 #    Satursday January 4, 2003 (added unsharp)
-#    Tuesday May 18, 2004 (remove profiles from jpeg files)
+#    Tuesday May 18, 2004 (removed profiles from jpeg files)
+#    Monday December 17, 2012 (updated scaling)
 
 # Requirement:
 # 1) convert ( from ImageMagick Studio package)
@@ -30,7 +31,7 @@ sub main
   my $CurrentFile="";
   my $i=0;
   my $b=1;    # border is on by default
-  my $max_size=1024;  # max size is 1024 pixels by default
+  my $max_size=1080;  # max size is 1080 pixels by default
 
   my @A_PARA;
   
@@ -42,7 +43,7 @@ sub main
     {
     /-b/ and do
       {
-        $b=0;
+        $b=0;                   # no border
         shift(@ARGV);
       };
     /-m/ and do
@@ -66,11 +67,9 @@ sub main
         #print "\n$OutFile\n"
         # I wonder if this is faster than using system()
         print "Processing \"$CurrentFile\"... ";
-        `convert -size 2048x2048 \\
-         -scale $max_size"x"$max_size -sharpen 1x1 \\
-        -quality 90 +profile \"*\" $CurrentFile $OutFile`;
+        `convert -scale $max_size"x"$max_size -sharpen 1x1 \\
+        -quality 95 +profile \"*\" $CurrentFile $OutFile`;
         print "done.\n";
-#         -scale $max_size"x"$max_size -sharpen 1x1 -unsharp 0.5x0.5+0.75+0 \\
       }
     }
   }
@@ -91,11 +90,10 @@ sub main
         -flip -flop -bordercolor "#F8E5AF" -border 5x5 -raise 5x5 \\
         -flop -flip -bordercolor "#000000" -border 15x15 \\
          -scale $max_size"x"$max_size -sharpen 1x1 -unsharp 0.5x0.5+0.75+0 \\
-        -quality 90 +profile \"*\" \\
+        -quality 95 +profile \"*\" \\
         $CurrentFile $OutFile`;
         print "done.\n";
       }
     }
   }
-
 }

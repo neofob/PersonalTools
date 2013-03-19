@@ -1,11 +1,11 @@
 set background=dark
-call pathogen#infect()
 syntax on
 filetype plugin indent on
 colorscheme dante
 set hls
 set nu
-
+set rtp+=~/src/powerline/powerline/bindings/vim
+set laststatus=2
 if has("autocmd")
 	augroup C
 		autocmd!

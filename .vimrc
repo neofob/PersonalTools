@@ -7,6 +7,9 @@ set hls
 set nu
 set rtp+=~/src/powerline/powerline/bindings/vim
 set laststatus=2
+set t_Co=256
+set scrolloff=999
+let g:Powerline_symbols="fancy"
 
 if has("autocmd")
 	augroup C
@@ -30,5 +33,6 @@ if has("autocmd")
 			autocmd Syntax python syn match WhiteSpace /\s\+$/
 		endif
 	augroup END
-
 endif
+
+autocmd BufNewFile,BufRead *.md,*.markdown,*.mdown setl filetype=markdown

@@ -26,7 +26,7 @@ if has("autocmd")
 	augroup Python
 		autocmd!
 		autocmd FileType py set textwidth=80
-		autocmd BufRead,BufNewFile *.py setlocal tabstop=2
+		autocmd BufRead,BufNewFile *.py setlocal tabstop=4
 		autocmd BufRead,BufNewFile *.py setlocal expandtab
 		if has("syntax")
 			highlight WhiteSpace ctermbg=red guibg=red
@@ -36,3 +36,4 @@ if has("autocmd")
 endif
 
 autocmd BufNewFile,BufRead *.md,*.markdown,*.mdown setl filetype=markdown
+autocmd BufNewFile,BufRead Vagrantfile setl filetype=ruby

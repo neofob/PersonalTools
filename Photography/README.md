@@ -9,13 +9,13 @@
 
 `Fashion-?.xmp`: Color stage fashion show (halogen WB)
 
-### `actions`
+### `Actions`
 
 `ApplyMask`: different apply image using SoftLight and Multiply masking
 
 `IntenseColor`: similar to the above actions with frequent use combo ratios.
 
-### `scripts`
+### `Scripts`
 
 `saveFinal.js`: Java Script to save an current open file as final version
 with "-Final" appended to the filename.

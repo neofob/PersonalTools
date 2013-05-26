@@ -27,6 +27,7 @@ if has("autocmd")
 		autocmd!
 		autocmd FileType py set textwidth=80
 		autocmd BufRead,BufNewFile *.py setlocal tabstop=4
+		autocmd BufRead,BufNewFile *.py setlocal shiftwidth=4
 		autocmd BufRead,BufNewFile *.py setlocal expandtab
 		if has("syntax")
 			highlight WhiteSpace ctermbg=red guibg=red

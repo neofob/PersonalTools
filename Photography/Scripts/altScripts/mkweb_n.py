@@ -15,10 +15,10 @@ import os, sys
 # https://github.com/neofob/PersonalTools.git
 
 # set this to something else to turn off the debug messages
-MDEBUG = 'ON'
+OUTPUT = False
 
 def DEBUG(arg):
-  if 'ON' == MDEBUG:
+  if OUTPUT:
     print arg
 
 # main function

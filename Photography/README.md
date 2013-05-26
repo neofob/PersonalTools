@@ -1,28 +1,10 @@
 ## Photoshop Settings
 
 ### `ACR`
-`BW-?.xmp`: Black and White settings
-
-`CDE-BW-?.xmp`: Black and White settings for CDE dances
-
-`CDE-BW-Ashlynn.xmp`: Black and White settings for balet type
-
-`Fashion-?.xmp`: Color stage fashion show (halogen WB)
+Adobe Camera Raw settings
 
 ### `Actions`
-
-`ApplyMask`: different apply image using SoftLight and Multiply masking
-
-`IntenseColor`: similar to the above actions with frequent use combo ratios.
+Adobe Photoshop actions
 
 ### `Scripts`
-
-`saveFinal.js`: Java Script to save an current open file as final version
-with "-Final" appended to the filename.
-
-`saveFinalWeb.js`: Java Script to save the current open file as a web version
-8bit/channel. The filename with "-Final" is replaced by "-Web" at the end.
-
-`saveWeb.js`: Java Script to save an current open file as final version with
-"-Web" appended to the filename.
-
+Adobe Photoshop scripts, Perl, Python scripts to process the images for web

@@ -31,7 +31,7 @@ sub main
   my $CurrentFile="";
   my $i=0;
   my $b=1;    # border is on by default
-  my $max_size=1080;  # max size is 1080 pixels by default
+  my $max_size=1280;  # max size is 1280 pixels by default
 
   my @A_PARA;
   

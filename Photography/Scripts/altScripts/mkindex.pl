@@ -117,7 +117,7 @@ sub main
         -bordercolor "#000000" -border 3x3 \\
         -flip -flop -bordercolor "#F8E5AF" -border 5x5 -raise 5x5 \\
         -flop -flip -bordercolor "#000000" -border 15x15 \\
-        -scale 1080x1080 -sharpen 1x1 -unsharp 0.12x0.25 -quality 95 +profile \"*\" \\
+        -scale 1280x1280 -sharpen 1x1 -unsharp 0.12x0.25 -quality 95 +profile \"*\" \\
         $CurrentFile $OutFile`;
       
       }
@@ -175,7 +175,7 @@ sub main
     "<br><br>\n".
     " <center><font size=\"+1\" color=\"\#FAFAFA\">\n".
     "  <b><a href=\"$ParentDir\">Up</a></b><br>".
-    "    <b>Click on the thumbnail to see that photo (the largest dimension is 1080 pixels)</b>\n".
+    "    <b>Click on the thumbnail to see that photo (the largest dimension is 1280 pixels)</b>\n".
     "  </font></center>".
     "<br><br>\n".
 

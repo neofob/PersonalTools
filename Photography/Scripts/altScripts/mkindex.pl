@@ -36,7 +36,7 @@
 # 3.copy right tag (check out JWZ's code)
 
 $Site="http://photo.neofob.org";
-$ParentDir="../index.html";
+$ParentDir="../";
 $NAME="Tuan T. Pham";    # put your darn name here
 $IndexFile="";
 $Title="";

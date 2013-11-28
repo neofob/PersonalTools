@@ -7,6 +7,13 @@ color: #FFFFFF;
 background-color: #000000;
 }
 
+p.firstLetter:first-letter
+{
+  font-size: xx-large;
+  font-weight: bold;
+  text-float: left;
+}
+
 p:first-of-type:first-letter {
   font-size: xx-large;
   font-weight: bold;
@@ -14,7 +21,7 @@ p:first-of-type:first-letter {
 }
 
 p:first-of-type:first-line {
-	font-variant: small-caps;
+  font-variant: small-caps;
 }
 
 p {

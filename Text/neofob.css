@@ -13,6 +13,10 @@ p:first-of-type:first-letter {
   text-float: left;
 }
 
+p:first-of-type:first-line {
+	font-variant: small-caps;
+}
+
 p {
   text-indent: 25px;
   text-align: justify;

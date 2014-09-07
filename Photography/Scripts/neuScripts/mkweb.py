@@ -12,14 +12,20 @@ try:
 except ImportError:
     import configparser
 
+import os
+import sys
+import glob
+import string
+import re
 import PythonMagick as Magick
-import os, sys, glob, string, re
-
-from multiprocessing import Process
 import multiprocessing
+from multiprocessing import Process
+from optparse import OptionParser
 
-# Set to True to turn on DEBUG
 OUTPUT = False
+DRY_RUN = False
+CONFIG_FILE = 'image.cfg'
+DEFAULT_DIR = '.config/image'
 
 def DEBUG(arg):
     if OUTPUT:
@@ -61,16 +67,16 @@ def parse_config(config_file):
 
     return settings
 
-def LoadConfig(argv):
-    print 'config file = ' + argv[0]
+def load_config(config_file):
+    print ('config file = %s' % config_file)
     global image_settings
-    image_settings = parse_config(argv[0])
+    image_settings = parse_config(config_file)
 
     print "image settings:"
     for key in image_settings:
         print "%s = %s" % (key, image_settings[key])
 
-def ProcessDirs(dirs):
+def process_dirs(dirs):
     CWD = os.getcwd()
     fileList = []
     for item in dirs:
@@ -88,7 +94,7 @@ def ProcessDirs(dirs):
     thread_no = multiprocessing.cpu_count()
     print "Number of threads = %d" % thread_no
     print "Total files to process = %d" % len(fileList)
-    p = []
+    procs = []
     pivot = 0
     part_size = len(fileList)/thread_no
     args_array = []
@@ -101,18 +107,18 @@ def ProcessDirs(dirs):
         args_array[i].append(remain[i])
 
     for i in range(thread_no):
-        p.append(Process(target=ProcessImage, args=(args_array[i],)))
-        p[i].start()
+        procs.append(Process(target=process_image, args=(args_array[i],)))
+        procs[i].start()
 
     # The first spawned threads tend to have more work. So we wait
     # for the last threads first because they tend to finish first.
     for i in range(thread_no):
         DEBUG("joining thread %d" % (thread_no-i-1))
-        p[thread_no-i-1].join()
+        procs[thread_no-i-1].join()
 
     os.chdir(CWD)
 
-def ProcessImage(images):
+def process_image(images):
     DEBUG(images)
     img = Magick.Image()
     radius, sigma = [float(s) for s in image_settings['sharpen'].split('x')]
@@ -131,9 +137,49 @@ def ProcessImage(images):
         item = string.replace(item, re.search('\.[^\.]+$', item).group(0), '.jpg')
         img.write(item)
 
-"""
-Self test, just parse input file for now
-"""
+
+def add_flags(parser):
+    parser.add_option("-v", "--version",
+                        action="store_true", dest="show_version", default=False,
+                        help="show version number and exit")
+
+    parser.add_option("-D", "--debug",
+                        action="store_true", dest="show_debug", default=False,
+                        help="show debug info")
+
+    parser.add_option("-d", "--dry-run",
+                        action="store_true", dest="dry_run", default=False,
+                        help="don't do anything, just print commands")
+
+    parser.add_option("-c", "--config",
+                        type="string", dest="config_file",
+                        help="set config file location (default: %s)" %
+                            ("~/" + DEFAULT_DIR + '/' + CONFIG_FILE))
+
+
+def parse_args():
+    parser = OptionParser(usage="%prog [-c CONFIG_FILE] [INPUT_DIRS...]",
+                            epilog="Author: Tuan T. Pham <tuan at vt dot edu>")
+    add_flags(parser)
+    (opts, args) = parser.parse_args()
+    if opts.show_version:
+        print ('mkweb v%s' % __version__)
+        exit(0)
+
+    if opts.show_debug:
+        global OUTPUT
+        OUTPUT = True
+
+    if opts.dry_run:
+        global DRY_RUN
+        DRY_RUN = True
+
+    load_config(opts.config_file or
+                os.path.expanduser('~/%s/%s' % (DEFAULT_DIR, CONFIG_FILE)))
+
+    return args
+
+
 if __name__ == '__main__':
-    LoadConfig([sys.argv[1]])
-    ProcessDirs(sys.argv[2:])
+    args = parse_args()
+    process_dirs(args)

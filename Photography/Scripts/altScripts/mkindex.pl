@@ -117,13 +117,13 @@ sub main
         -bordercolor "#000000" -border 3x3 \\
         -flip -flop -bordercolor "#F8E5AF" -border 5x5 -raise 5x5 \\
         -flop -flip -bordercolor "#000000" -border 15x15 \\
-        -scale 1280x1280 -sharpen 1x1 -unsharp 0.12x0.25 -quality 95 +profile \"*\" \\
+        -scale 1280x1280 -sharpen 1x1 -unsharp 0.12x0.25 -quality 95 -strip \\
         $CurrentFile $OutFile`;
       
       }
 
       $ThumbNail="tn-".$OutFile;
-      `convert -scale 150x150 +profile \"*\" $OutFile tn/$ThumbNail`;  # make thumbnail
+      `convert -scale 150x150 -strip $OutFile tn/$ThumbNail`;  # make thumbnail
 
       # need to solve the -c smoother
       # make html file this file

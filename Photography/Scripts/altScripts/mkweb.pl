@@ -68,7 +68,7 @@ sub main
         # I wonder if this is faster than using system()
         print "Processing \"$CurrentFile\"... ";
         `convert -scale $max_size"x"$max_size -sharpen 1x1 \\
-        -quality 95 +profile \"*\" $CurrentFile $OutFile`;
+        -quality 95 -strip $CurrentFile $OutFile`;
         print "done.\n";
       }
     }
@@ -90,7 +90,7 @@ sub main
         -flip -flop -bordercolor "#F8E5AF" -border 5x5 -raise 5x5 \\
         -flop -flip -bordercolor "#000000" -border 15x15 \\
          -scale $max_size"x"$max_size -sharpen 1x1 -unsharp 0.5x0.5+0.75+0 \\
-        -quality 95 +profile \"*\" \\
+        -quality 95 -strip \\
         $CurrentFile $OutFile`;
         print "done.\n";
       }

@@ -1,3 +1,4 @@
+#!/usr/bin/python
 __author__ = "Tuan T. Pham"
 __version__ = "0.0.1"
 
@@ -77,6 +78,10 @@ def load_config(config_file):
         print "%s = %s" % (key, image_settings[key])
 
 def process_dirs(dirs):
+    global DRY_RUN
+    if DRY_RUN:
+        print "\nDRY-RUN: no image will be processed!\n"
+
     CWD = os.getcwd()
     fileList = []
     for item in dirs:
@@ -123,12 +128,18 @@ def process_image(images):
     img = Magick.Image()
     radius, sigma = [float(s) for s in image_settings['sharpen'].split('x')]
 
+    global DRY_RUN
+
     for item in images:
         try:
             img.read(item)
         except:
             print >> sys.stderr, 'Fail to open %s' % item
             continue
+        if DRY_RUN:
+            print "Open %s file" % (item)
+            continue
+
         img.scale(image_settings['scale'])
         img.sharpen(radius, sigma)
         img.quality(image_settings['quality'])

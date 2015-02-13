@@ -29,7 +29,7 @@ for file in $@; do
 		(
 		exec_cmd "chmod 755 $file"
 		exec_cmd "cd $file"
-		exec_cmd "chmod.sh *"
+		exec_cmd "$0 *"
 		)
 	else
 		exec_cmd "chmod 644 $file"

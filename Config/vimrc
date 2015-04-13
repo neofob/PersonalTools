@@ -1,7 +1,20 @@
 set background=dark
 syntax on
 filetype plugin indent on
-colorscheme dante
+colorscheme monokai
+
+set nocompatible
+set rtp+=.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+Bundle 'scrooloose/nerdtree'
+Bundle 'klen/python-mode'
+
+" NERDTree keybinding
+map <F2> :NERDTreeToggle<CR>
+
 set hls
 set nu
 set rtp+=~/src/powerline/powerline/bindings/vim

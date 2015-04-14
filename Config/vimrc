@@ -1,12 +1,12 @@
 set background=dark
 syntax on
 filetype plugin indent on
-colorscheme monokai
+colorscheme molokai
 
 set nocompatible
-set rtp+=.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-
+" git clone from https://github.com/gmarik/Vundle.vim.git
 Bundle 'gmarik/vundle'
 
 Bundle 'scrooloose/nerdtree'

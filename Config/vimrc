@@ -11,6 +11,7 @@ Bundle 'gmarik/vundle'
 
 Bundle 'scrooloose/nerdtree'
 Bundle 'klen/python-mode'
+Bundle 'airblade/vim-gitgutter'
 
 " NERDTree keybinding
 map <F2> :NERDTreeToggle<CR>

@@ -50,7 +50,7 @@ function exec_gitcheck
 function exec_cmd
 {
 	if [ $DRY_RUN = 0 ]; then
-		$@
+		eval $@
 	else
 		echo "$@"
 	fi

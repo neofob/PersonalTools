@@ -12,16 +12,16 @@
 FILTER=${FILTER:="grep -v \"^None\""}
 CPUS=${CPUS:=`grep -c processor /proc/cpuinfo`}
 
-DEF_IMG="docker images | tail -n +2 | $FILTER | awk '{print \$1\":\"\$2}'"
-IMG_CMD=${IMG:=$DEF_IMG}
+DEF_IMG_CMD="docker images | tail -n +2 | $FILTER | awk '{print \$1\":\"\$2}'"
+IMG_CMD=${IMG_CMD:=$DEF_IMG_CMD}
 
 OUTDIR=${OUTDIR:=.}
 
 function set_compressor
 {
 	if [ "$COMPRESSOR" ]; then
-		echo "Using user compressor $COMPRESSOR"
-		echo $COMPRESSOR
+		echo "Using user compressor command '$COMPRESSOR'"
+		echo "Filename extension = .$COMP_EXT"
 		return
 	fi
 
@@ -38,29 +38,34 @@ function set_compressor
 	if [ ! "$COMPRESSOR" ]; then
 		echo "Use default compressor gz"
 		COMPRESSOR="gz -c"
+		COMP_EXT="gz"
+	else
+		COMP_EXT="xz"
 	fi
 }
 
 function get_img
 {
-	IMG=`eval $IMG_CMD`
+	if [ ! "$IMG" ]; then
+		IMG=`eval $IMG_CMD`
+	fi
 }
 
 function main
 {
 	set_compressor
-	echo "Compressor = $COMPRESSOR"
+	echo "Compressor Command = '$COMPRESSOR'"
 	get_img
-	echo -e "Saving images:\n$IMG"
+	echo -e "Saving image(s):\n$IMG"
 
 	for i in $IMG
 	do
-		echo -e "\nSaving docker image $i"
+		echo -e "\nSaving docker image '$i'"
 		OUTFILE=`echo $i | sed -e 's/\//_/g' | sed -e 's/:/_/'`
-		CMD="docker save \$i | \$COMPRESSOR > \$OUTDIR/\$OUTFILE.tar.xz"
-		echo $CMD
+		CMD="docker save \$i | \$COMPRESSOR > \$OUTDIR/\$OUTFILE.tar.$COMP_EXT"
+		echo "Output file = '$OUTDIR/$OUTFILE.tar.$COMP_EXT'"
+		# echo $CMD
 		eval $CMD
-		#docker save $i | pxz -T$CPUS -c9 - > $OUTDIR/$OUTFILE.tar.xz
 	done
 }
 

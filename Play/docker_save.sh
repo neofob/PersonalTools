@@ -9,7 +9,7 @@
 # $ xzcat debian_jessie.tar.xz | docker load
 
 # Define your own filter command to filter out the output of `docker images`
-FILTER=${FILTER:="grep -v \"^None\""}
+FILTER=${FILTER:="grep -vi \"^<None>\""}
 CPUS=${CPUS:=`grep -c processor /proc/cpuinfo`}
 
 DEF_IMG_CMD="docker images | tail -n +2 | $FILTER | awk '{print \$1\":\"\$2}'"

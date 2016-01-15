@@ -17,6 +17,65 @@ IMG_CMD=${IMG_CMD:=$DEF_IMG_CMD}
 
 OUTDIR=${OUTDIR:=.}
 
+# see https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+# the color code snippet is from https://github.com/docker/docker @ docker/contrib/check-config.sh
+declare -A colors=(
+	[black]=30
+	[red]=31
+	[green]=32
+	[yellow]=33
+	[blue]=34
+	[magenta]=35
+	[cyan]=36
+	[white]=37
+)
+# Ex:
+# color red
+# echo something
+# color reset
+function color()
+{
+	color=( '1' )
+	if [ $# -gt 0 ] && [ "${colors[$1]}" ]; then
+		color+=( "${colors[$1]}" )
+	else
+		color=()
+	fi
+	# set delimiter
+	local IFS=';'
+	echo -en '\033['"${color[*]}"m
+}
+
+# reverse docker's order
+# wrap_color <color> <"text">
+function wrap_color()
+{
+	color "$1"
+	shift
+	echo -ne "$@"
+	color reset
+	echo
+}
+
+function help_msg
+{
+	echo "$(wrap_color red "Usage:") $0"
+	echo -e "\t$(wrap_color yellow "[--help|-h]:") Help message"
+	echo
+	echo -e "$(wrap_color yellow "Environment Variables:")"
+	echo -e "\t$(wrap_color red "IMG") List of docker images to be saved"
+	echo -e "\t$(wrap_color red "CPUS") Number of CPUs to be used"
+	echo -e "\t\tDEFAULT CPUS=\`grep -c processor /proc/cpuinfo\`"
+	echo -e "\t$(wrap_color red "OUTDIR") Output directory"
+	echo -e "\t\tDEFAULT OUTPUT=."
+	echo -e "\t$(wrap_color red "COMPRESSOR") Compressor command line; take STDIN and output to STDOUT"
+	echo -e "\t\tDEFAULT COMPRESSOR=\"pxz -T$CPUS -c9 - \""
+	echo -e "\t$(wrap_color red "COMP_EXT") The file extension if the above variable is set"
+	echo -e "\t\tDEFAULT COMP_EXT=xz"
+	echo -e "\t$(wrap_color red "FILTER") The command to filter the output of \`docker images\`"
+	echo -e "\t\tDefault FILTER=\"grep -vi \"^<None>\""
+}
+
 function set_compressor
 {
 	if [ "$COMPRESSOR" ]; then
@@ -68,5 +127,10 @@ function main
 		eval $CMD
 	done
 }
+
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+	help_msg
+	exit 0
+fi
 
 main

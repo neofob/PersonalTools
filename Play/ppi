@@ -1,0 +1,5 @@
+#!/bin/bash
+# This calculate the Pixel Per Inch of a screen
+# Example: a screen of 1920x1080 with 15.6" diagonal
+# $ ./ppi 1920 1080 15.6
+echo "sqrt($1^2+$2^2)/$3" | bc -l
